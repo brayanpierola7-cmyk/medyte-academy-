@@ -1,0 +1,38 @@
+MEDYTE ACADEMY — VERSIÓN PARA COMPARTIR SIN XAMPP
+=================================================
+
+¡Puedes enviar la página hoy!
+
+OPCIÓN 1: ABRIR EN TU COMPUTADORA
+1. Descomprime este ZIP.
+2. Abre el archivo index.html en Chrome, Edge o Firefox.
+3. Prueba el simulacro. No necesita XAMPP ni MySQL.
+
+OPCIÓN 2: PUBLICAR PARA QUE TODOS ENTREN CON UN ENLACE
+1. Abre https://app.netlify.com/drop
+2. Descomprime este ZIP, si aún no lo hiciste.
+3. Arrastra la carpeta MEDYTE_ACADEMY_SIN_XAMPP (que contiene index.html, app.js, estilos.css, preguntas.js y logo.jpg) a la página.
+4. Netlify te mostrará una dirección pública que termina en .netlify.app.
+5. Comparte esa dirección por WhatsApp, Facebook, etc.
+
+Este paquete también incluye en la conversación una versión HTML DE UN SOLO ARCHIVO,
+que puedes subir a Netlify Drop directamente sin descomprimir.
+
+QUÉ INCLUYE
+- 1.000 preguntas de práctica y sus explicaciones.
+- Cinco materias de admisión UMSA 2026.
+- Biología limitada a los seis temas seleccionados.
+- Prácticas y simulacros de 10, 20, 50 y 100 preguntas.
+- Cronómetro en modo simulacro (90 segundos por pregunta).
+- Corrección, historial local, XP y repaso de errores.
+- Tu logo original y diseño adaptable a celular.
+
+QUÉ NO INCLUYE (PORQUE ESTA VERSIÓN NO USA BASE DE DATOS)
+- No permite registrar cuentas reales ni acceder como administrador.
+- No almacena usuarios en un servidor ni permite ver los resultados de otros alumnos.
+- Cada estudiante guarda su progreso solo en su navegador/dispositivo.
+- Si se borran los datos del navegador, también se pierde ese progreso.
+
+El contenido consiste en preguntas originales de práctica, no preguntas oficiales de la UMSA.
+Se recomienda revisión académica antes de su uso formal. No coloques datos privados
+ni contraseñas en esta versión; no los necesita.
