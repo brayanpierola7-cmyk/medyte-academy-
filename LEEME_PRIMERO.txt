@@ -1,0 +1,19 @@
+MEDYTE ACADEMY — EDICIÓN ÉPICA
+===============================
+
+1. EXTRAER este ZIP en una carpeta de tu computadora.
+2. Hacer doble clic en index.html para probar el campus y sus juegos.
+3. Para compartir por internet, subir TODOS los archivos extraídos a la raíz del
+   repositorio GitHub medyte-academy. No subir el ZIP sin descomprimir.
+4. Revisar Settings > Pages: main + / (root).
+5. Entrar a MEDYTE GAMES desde el menú de la página.
+
+INCLUYE:
+- 1.000 preguntas, 5 materias, 52 temas.
+- Aventura del Conocimiento: 6 niveles, vidas, combos y contrarreloj.
+- Anatomía Challenge: 3 niveles, arrastrar o tocar, pistas y puntos.
+- Rangos, logros, misiones diarias, intro y sonido opcional.
+- Diseño adaptable e instalación tipo PWA.
+
+NO NECESITA XAMPP. Los XP se guardan en este navegador y dispositivo; no son
+cuentas de estudiante compartidas entre equipos. Consulta README.md para más.
