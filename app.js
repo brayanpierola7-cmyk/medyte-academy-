@@ -15,7 +15,7 @@
   const dateKey = () => { const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'); };
   const KEY = 'medyte_demo_estatica_v1'; // Mantener los resultados de la versión anterior.
   const DRAFT_KEY = 'medyte_borrador_v4';
-  const blankProfile = () => ({xp:0, history:[], mistakes:[], favorites:[], dailyHistory:{}, avatar:'estudiante', studentName:'Estudiante Medyte', career:'Medicina UMSA', notes:{}, flashcardsKnown:[], accounts:[], srs:{}, studyDates:[], examDate:'2027-01-25'});
+  const blankProfile = () => ({xp:0, history:[], mistakes:[], favorites:[], dailyHistory:{}, avatar:'estudiante', photo:'', studentName:'Estudiante Medyte', career:'Medicina UMSA', notes:{}, flashcardsKnown:[], accounts:[], srs:{}, studyDates:[], examDate:'2027-01-25'});
   const readJson = key => {try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
   let profile = {...blankProfile(), ...(readJson(KEY)||{})};
   profile.history = Array.isArray(profile.history) ? profile.history : [];
@@ -32,7 +32,13 @@
   profile.studyDates = Array.isArray(profile.studyDates) ? profile.studyDates : [];
   profile.examDate = String(profile.examDate || '2027-01-25');
   const AVATARS = [{id:'estudiante',icon:'🎓',name:'Estudiante',xp:0},{id:'explorador',icon:'🧭',name:'Explorador',xp:100},{id:'ciencia',icon:'🧪',name:'Científico',xp:250},{id:'doctora',icon:'🩺',name:'Personal médico',xp:500},{id:'genio',icon:'🧠',name:'50 aciertos',xp:850},{id:'estrella',icon:'👑',name:'Experto MEDYTE',xp:1500}];
+  const validPhoto = value => typeof value === 'string' && value.length <= 160000 &&
+    /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(value) ? value : '';
   const selectedAvatar = () => AVATARS.find(a=>a.id===profile.avatar&&profile.xp>=a.xp) || AVATARS[0];
+  function profilePicture() {
+    const photo = validPhoto(profile.photo);
+    return photo ? `<img class="profile-photo" src="${photo}" alt="">` : selectedAvatar().icon;
+  }
   const subjectCount = Object.fromEntries(catalog.map(s=>[s.id,bank.filter(q=>q.topic.startsWith(s.id)).length]));
   const byTopicCount = Object.fromEntries([...topicById.keys()].map(id=>[id,bank.filter(q=>q.topic===id).length]));
   const state = {
@@ -62,7 +68,7 @@
   function toast(msg){const el=$('toast');el.textContent=msg;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,4200);}
   function setContent(html,crumb='Inicio'){$('crumb').textContent=crumb;$('view').innerHTML=html;window.scrollTo({top:0,behavior:'instant'});}
   function closeMenu(){$('sidebar').classList.remove('open');$('mobileShade').hidden=true;$('menuToggle').setAttribute('aria-expanded','false');}
-  function uiHeader(){$('xpHeader').textContent='✦ '+Math.floor(profile.xp)+' XP';$('levelChip').textContent='Nivel '+level();$('favoritesCount').textContent=profile.favorites.length;if($('avatarHeader'))$('avatarHeader').textContent=selectedAvatar().icon;if($('studentNameBtn'))$('studentNameBtn').textContent='👤 '+(profile.studentName.split(' ')[0]||'Estudiante');}
+  function uiHeader(){$('xpHeader').textContent='✦ '+Math.floor(profile.xp)+' XP';$('levelChip').textContent='Nivel '+level();$('favoritesCount').textContent=profile.favorites.length;if($('avatarHeader'))$('avatarHeader').innerHTML=profilePicture();if($('studentNameBtn'))$('studentNameBtn').textContent='👤 '+(profile.studentName.split(' ')[0]||'Estudiante');}
   function nav(page){state.page=page;closeMenu();uiHeader();document.querySelectorAll('[data-nav]').forEach(x=>x.classList.toggle('current',x.dataset.nav===page||(page==='temas'&&x.dataset.nav==='materias')));
     try{if(page!=='quiz'&&page!=='resultado'&&page!=='temas')history.replaceState(null,'','#'+page);}catch{}
     const views={inicio:home,materias:materias,temas:temas,simulacros:setupView,flashcards:flashcardsView,formulario:formularioView,biblioteca:biblioteca,favoritos:favoritos,progreso:progreso,trofeos:trofeos,errores:errores,acerca:acerca,quiz:quizView,resultado:resultado};
@@ -657,8 +663,62 @@ function trofeos(){
 
   function saveCurrentAccountSlot(){
     const idx=profile.accounts.findIndex(a=>a.studentName.toLowerCase()===profile.studentName.toLowerCase());
-    const snap={studentName:profile.studentName,career:profile.career,xp:profile.xp,avatar:profile.avatar,history:profile.history,mistakes:profile.mistakes,favorites:profile.favorites,notes:profile.notes,flashcardsKnown:profile.flashcardsKnown,updatedAt:new Date().toISOString()};
+    const snap={studentName:profile.studentName,career:profile.career,xp:profile.xp,avatar:profile.avatar,photo:validPhoto(profile.photo),history:profile.history,mistakes:profile.mistakes,favorites:profile.favorites,notes:profile.notes,flashcardsKnown:profile.flashcardsKnown,updatedAt:new Date().toISOString()};
     if(idx>=0)profile.accounts[idx]=snap;else profile.accounts.push(snap);
+  }
+
+  function updateProfilePhoto(photo) {
+    const previous = profile.photo;
+    const accounts = profile.accounts.slice();
+    profile.photo = photo;
+    saveCurrentAccountSlot();
+    try {
+      localStorage.setItem(KEY, JSON.stringify(profile));
+    } catch {
+      profile.photo = previous;
+      profile.accounts = accounts;
+      $('profilePhotoStatus').textContent = 'No se pudo guardar la foto. Comprueba el espacio disponible en el navegador.';
+      return;
+    }
+    uiHeader();
+    $('profilePhotoPreview').innerHTML = profilePicture();
+    $('profilePhotoRemove').hidden = !photo;
+    $('profilePhotoStatus').textContent = photo ? 'Foto guardada.' : 'Foto eliminada.';
+  }
+
+  async function loadProfilePhoto(input) {
+    const file = input.files?.[0];
+    if (!file) return;
+    const status = $('profilePhotoStatus');
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 10 * 1024 * 1024) {
+      input.value = '';
+      status.textContent = 'Elige una imagen JPG, PNG o WebP de hasta 10 MB.';
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    input.disabled = true;
+    try {
+      const image = new Image();
+      image.src = url;
+      await image.decode();
+      const size = Math.min(image.naturalWidth, image.naturalHeight);
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = Math.min(size, 192);
+      const drawing = canvas.getContext('2d');
+      drawing.fillStyle = '#10283b';
+      drawing.fillRect(0, 0, canvas.width, canvas.height);
+      drawing.drawImage(image, (image.naturalWidth-size)/2, (image.naturalHeight-size)/2,
+        size, size, 0, 0, canvas.width, canvas.height);
+      const photo = validPhoto(canvas.toDataURL('image/jpeg', 0.8));
+      if (!photo) throw new Error('Formato de imagen inválido');
+      if ($('profilePhotoInput') === input && !$('studentModal').hidden) updateProfilePhoto(photo);
+    } catch {
+      status.textContent = 'No se pudo abrir esta imagen. Prueba con otra.';
+    } finally {
+      URL.revokeObjectURL(url);
+      input.disabled = false;
+      input.value = '';
+    }
   }
 
   function openProfileModal(){
@@ -671,6 +731,15 @@ function trofeos(){
       <div style="display:grid;gap:14px;margin-top:12px">
         <div class="card" style="padding:16px">
           <h3 style="margin:0 0 10px">Datos del postulante</h3>
+          <div class="profile-photo-editor">
+            <div id="profilePhotoPreview" class="profile-photo-preview" aria-hidden="true">${profilePicture()}</div>
+            <div>
+              <label class="control">Foto de perfil<input type="file" id="profilePhotoInput" accept="image/jpeg,image/png,image/webp" aria-describedby="profilePhotoHelp profilePhotoStatus"></label>
+              <small class="muted" id="profilePhotoHelp">JPG, PNG o WebP hasta 10 MB. Se guarda en este navegador y se incluye en el respaldo JSON.</small>
+              <button type="button" id="profilePhotoRemove" class="btn soft smallbtn" data-action="remove-profile-photo" ${validPhoto(profile.photo)?'':'hidden'}>Quitar foto</button>
+              <div id="profilePhotoStatus" class="small muted" role="status"></div>
+            </div>
+          </div>
           <div class="pro-config-row">
             <label class="control">Tu nombre o apodo<input id="profNameInput" value="${e(profile.studentName)}" maxlength="60"></label>
             <label class="control">Carrera objetivo UMSA<select id="profCareerInput">${['Medicina UMSA','Enfermería UMSA','Nutrición y Dietética','Tecnología Médica','Bioquímica y Farmacia','Odontología UMSA'].map(c=>`<option value="${c}" ${profile.career===c?'selected':''}>${c}</option>`).join('')}</select></label>
@@ -689,7 +758,7 @@ function trofeos(){
   }
 
   function exportFile(name,text,kind){const blob=new Blob([text],{type:kind});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
-  function exportProgress(){saveCurrentAccountSlot();const copy={app:'MEDYTE ACADEMY 7.0 PRO',exportado:new Date().toISOString(),studentName:profile.studentName,career:profile.career,avatar:profile.avatar||'estudiante',xp:profile.xp,historial:profile.history,errores:profile.mistakes,favoritas:profile.favorites,notes:profile.notes,flashcardsKnown:profile.flashcardsKnown,accounts:profile.accounts};exportFile('medyte-progreso-'+profile.studentName.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.json',JSON.stringify(copy,null,2),'application/json');}
+  function exportProgress(){saveCurrentAccountSlot();const copy={app:'MEDYTE ACADEMY 7.0 PRO',exportado:new Date().toISOString(),studentName:profile.studentName,career:profile.career,avatar:profile.avatar||'estudiante',photo:validPhoto(profile.photo),xp:profile.xp,historial:profile.history,errores:profile.mistakes,favoritas:profile.favorites,notes:profile.notes,flashcardsKnown:profile.flashcardsKnown,accounts:profile.accounts};exportFile('medyte-progreso-'+profile.studentName.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.json',JSON.stringify(copy,null,2),'application/json');}
   function csvCell(v){let s=String(v??'');if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
   function exportResult(){const r=state.lastResult||profile.history[0];if(!r)return;const rows=[['ID','Materia y tema','Pregunta','Respuesta elegida','Correcta','Resultado','Explicación']];
     for(const row of r.items){const q=questionById.get(row.id);if(!q)continue;rows.push([row.id,(topicById.get(q.topic)?.subject||'')+' / '+(topicById.get(q.topic)?.name||''),q.q,row.answer===null?'Sin responder':q.a[row.answer],q.a[q.c],row.answer===row.correct?'Correcta':'Incorrecta',q.e]);}
@@ -724,9 +793,13 @@ function trofeos(){
     if(cmd==='print-result'){window.print();return;}
     if(cmd==='perfil-modal'){openProfileModal();return;}
     if(cmd==='close-perfil-modal'){if($('studentModal'))$('studentModal').hidden=true;return;}
-    if(cmd==='save-perfil'){const n=$('profNameInput')?.value.trim();const c=$('profCareerInput')?.value;if(n)profile.studentName=n;if(c)profile.career=c;saveCurrentAccountSlot();save();uiHeader();if($('studentModal'))$('studentModal').hidden=true;if(state.page==='progreso')progreso();toast('Perfil actualizado: '+profile.studentName);return;}
-    if(cmd==='new-account-slot'){const name=prompt('Nombre del nuevo estudiante:');if(!name||!name.trim())return;saveCurrentAccountSlot();profile.studentName=name.trim();profile.xp=0;profile.history=[];profile.mistakes=[];profile.favorites=[];profile.notes={};profile.flashcardsKnown=[];saveCurrentAccountSlot();save();uiHeader();openProfileModal();toast('Cuenta creada: '+profile.studentName);return;}
-    if(cmd.startsWith('switch-account:')){const idx=Number(cmd.slice(15));const acc=profile.accounts[idx];if(!acc)return;saveCurrentAccountSlot();profile.studentName=acc.studentName;profile.career=acc.career||'Medicina UMSA';profile.xp=acc.xp||0;profile.avatar=acc.avatar||'estudiante';profile.history=acc.history||[];profile.mistakes=acc.mistakes||[];profile.favorites=acc.favorites||[];profile.notes=acc.notes||{};profile.flashcardsKnown=acc.flashcardsKnown||[];save();uiHeader();openProfileModal();if(state.page==='progreso')progreso();toast('Cambiaste al perfil de '+profile.studentName);return;}
+    if(cmd==='remove-profile-photo'){if(!$('profilePhotoInput').disabled)updateProfilePhoto('');return;}
+    if(cmd==='save-perfil'){const n=$('profNameInput')?.value.trim();const c=$('profCareerInput')?.value;if(n && n.toLowerCase()!==profile.studentName.toLowerCase()){
+      if(profile.accounts.some(a=>a.studentName.toLowerCase()===n.toLowerCase())){toast('Ese nombre ya pertenece a otro perfil.');return;}
+      profile.accounts=profile.accounts.filter(a=>a.studentName.toLowerCase()!==profile.studentName.toLowerCase());
+    }if(n)profile.studentName=n;if(c)profile.career=c;saveCurrentAccountSlot();save();uiHeader();if($('studentModal'))$('studentModal').hidden=true;if(state.page==='progreso')progreso();toast('Perfil actualizado: '+profile.studentName);return;}
+    if(cmd==='new-account-slot'){const name=prompt('Nombre del nuevo estudiante:');if(!name||!name.trim())return;if(profile.accounts.some(a=>a.studentName.toLowerCase()===name.trim().toLowerCase())){toast('Ya hay un perfil con ese nombre.');return;}saveCurrentAccountSlot();profile.studentName=name.trim();profile.photo='';profile.xp=0;profile.history=[];profile.mistakes=[];profile.favorites=[];profile.notes={};profile.flashcardsKnown=[];saveCurrentAccountSlot();save();uiHeader();openProfileModal();toast('Cuenta creada: '+profile.studentName);return;}
+    if(cmd.startsWith('switch-account:')){const idx=Number(cmd.slice(15));const acc=profile.accounts[idx];if(!acc)return;saveCurrentAccountSlot();profile.studentName=acc.studentName;profile.career=acc.career||'Medicina UMSA';profile.xp=acc.xp||0;profile.avatar=acc.avatar||'estudiante';profile.photo=validPhoto(acc.photo);profile.history=acc.history||[];profile.mistakes=acc.mistakes||[];profile.favorites=acc.favorites||[];profile.notes=acc.notes||{};profile.flashcardsKnown=acc.flashcardsKnown||[];save();uiHeader();openProfileModal();if(state.page==='progreso')progreso();toast('Cambiaste al perfil de '+profile.studentName);return;}
     if(cmd==='import-progress'){$('importFileInput')?.click();return;}
     if(cmd==='flash-flip'){state.flash.flipped=!state.flash.flipped;flashcardsView();return;}
     if(cmd==='flash-prev'){if(state.flash.deck.length){state.flash.idx=(state.flash.idx-1+state.flash.deck.length)%state.flash.deck.length;state.flash.flipped=false;flashcardsView();}return;}
@@ -763,6 +836,7 @@ function trofeos(){
     const cmd=evt.target.closest('[data-action]');if(cmd){evt.preventDefault();action(cmd.dataset.action);}
   });
   document.addEventListener('change',evt=>{const v=evt.target.value;
+    if(evt.target.id==='profilePhotoInput'){loadProfilePhoto(evt.target);return;}
     if(evt.target.id==='scopeSelect')state.setup.scope=v;
     if(evt.target.id==='countSelect')state.setup.qty=Number(v);
     if(evt.target.id==='modeSelect')state.setup.mode=v;
@@ -790,6 +864,7 @@ function trofeos(){
           if(data.studentName)profile.studentName=data.studentName;
           if(data.career)profile.career=data.career;
           if(data.avatar)profile.avatar=data.avatar;
+          if ('photo' in data || Array.isArray(data.accounts)) profile.photo=validPhoto(data.photo);
           if(data.notes)profile.notes=data.notes;
           if(Array.isArray(data.flashcardsKnown))profile.flashcardsKnown=data.flashcardsKnown;
           if(Array.isArray(data.accounts))profile.accounts=data.accounts;

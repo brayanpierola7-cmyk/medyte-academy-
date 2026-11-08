@@ -357,3 +357,14 @@ button, a{ -webkit-tap-highlight-color:transparent }
     align-items: flex-start;
   }
 }
+
+.avatar-top { overflow: hidden; padding: 0; }
+.profile-photo { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.profile-photo-editor { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: start; gap: 14px; margin-bottom: 18px; }
+.profile-photo-preview { display: grid; place-items: center; width: 64px; height: 64px; border: 1px solid var(--gold); border-radius: 50%; background: #10283b; font-size: 26px; }
+.profile-photo-editor input { width: 100%; }
+.profile-photo-editor .btn { margin: 8px 0; }
+.profile-photo-editor .btn[hidden] { display: none; }
+@media (max-width: 400px) {
+  .profile-photo-editor { grid-template-columns: 1fr; }
+}
