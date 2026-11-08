@@ -96,9 +96,40 @@ body{background:radial-gradient(ellipse 900px 450px at 75% -150px,#234464 0,tran
 .side-nav .games-link:hover{background:#2a4c63}
 .games-new{font-size:9px;letter-spacing:.09em;color:#16253a;background:#e5bf78;padding:3px 6px;border-radius:50px;margin-left:auto}
 .games-home-btn{background:#193b50!important;border-color:#bb9659!important;color:#fae0ae!important}
-.games-highlight{display:flex;align-items:center;gap:21px;justify-content:space-between;border:1px solid #ac8c5266;border-radius:22px;padding:24px;margin:20px 0 27px;background:linear-gradient(110deg,#23404e,#122a40);box-shadow:0 12px 30px #0002}
-.games-highlight-icon{font-size:43px;flex:none}
+.games-highlight{border:1px solid #ac8c5266;border-radius:22px;padding:24px;margin:20px 0 27px;background:linear-gradient(110deg,#23404e,#122a40);box-shadow:0 12px 30px #0002}
+.games-highlight-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.games-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 155px), 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+.games-shortcuts li { display: flex; }
+.games-shortcuts a {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #516b7e;
+  border-radius: 12px;
+  background: #10283b;
+  color: #f5f8fc;
+  text-decoration: none;
+}
+.games-shortcuts a:hover, .games-shortcuts a:focus-visible { border-color: var(--gold); background: #19394f; }
+.games-shortcuts a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.games-shortcuts span { font-size: 22px; }
+.games-shortcuts small { color: #c0d1df; line-height: 1.4; }
 .games-highlight h2{font-size:22px;margin:5px 0}
 .games-highlight p{margin:0;color:#c0d1df;max-width:640px;font-size:13px}
 .games-highlight .btn{flex:none;background:#e5bf78;color:#122337;border:0}
-@media(max-width:780px){.games-highlight{flex-wrap:wrap}.games-highlight .btn{width:100%}}
+@media(max-width:480px){.games-highlight{padding:18px}.games-highlight-heading .btn{width:100%}}

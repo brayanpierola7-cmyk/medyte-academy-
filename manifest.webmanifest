@@ -1,7 +1,7 @@
 {
-  "name": "MEDYTE ACADEMY — Edición Épica",
+  "name": "MEDYTE ACADEMY - Campus y juegos",
   "short_name": "MEDYTE",
-  "description": "1.000 preguntas, dos juegos interactivos, misiones, XP y simulacros",
+  "description": "Preguntas, simulacros, juegos y progreso de estudio",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

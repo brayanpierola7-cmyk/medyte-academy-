@@ -4,3 +4,247 @@
 @media(max-width:630px){.topbar{height:76px;padding:10px 16px}.logo-group img{width:42px;height:42px}.logo-group strong{font-size:15px}.logo-group small{font-size:8px;letter-spacing:.07em}.top-back{display:none}.xp-indicator{padding:7px 11px}.main{width:calc(100% - 26px);padding:22px 0 55px}.hero{padding:25px;gap:0}.hero-art{font-size:67px;align-self:end}.hero h1{font-size:35px}.hero p{font-size:14px}.game-grid,.anatomy-levels{grid-template-columns:1fr}.game-card{min-height:260px}.map-path{padding:12px;gap:10px}.island{min-height:164px;padding:9px}.island-icon{font-size:40px}.island strong{font-size:13px}.island small{font-size:11px}.page-head{flex-direction:column;gap:4px}.overview-stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}.question-box{padding:19px}.anatomy-task{padding:20px}.anatomy-layout{gap:14px}.diagram-wrap{max-width:355px}.footer{padding:17px}.results .score-big{font-size:47px}.btn-row .btn{flex:1}.pill{font-size:11px}}
 @media(max-width:390px){.hero-art{display:none}.logo-group small{display:none}.logo-group strong{font-size:14px}.xp-indicator{font-size:12px}.island{min-height:144px}.island-icon{font-size:33px}.game-card{padding:20px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* === MEJORAS MEDYTE GAMES 8.0 (4 JUEGOS, COMODINES Y TABLERO DE MEMORIA) === */
+.game-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.survival-card {
+  background: radial-gradient(circle at top right, rgba(238, 104, 116, 0.16), transparent 58%), #10253a;
+  border-color: #4b6a88;
+}
+.memory-card {
+  background: radial-gradient(circle at top right, rgba(94, 211, 162, 0.14), transparent 58%), #10253a;
+  border-color: #4b6a88;
+}
+.powerup-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 14px;
+  background: rgba(14, 34, 54, 0.9);
+  border: 1px solid #355675;
+}
+.powerup-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #f3d28c;
+}
+.powerup-btn {
+  padding: 8px 13px;
+  border-radius: 10px;
+  border: 1px solid #507394;
+  background: #16324d;
+  color: #f2f5f8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.powerup-btn:hover:not(:disabled) {
+  background: #1f4468;
+  border-color: #e5bf78;
+  transform: translateY(-1px);
+}
+.powerup-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.answer-option.eliminated {
+  opacity: 0.35;
+  filter: grayscale(0.8);
+  pointer-events: none;
+}
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.memory-card-item {
+  min-height: 132px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid #3c5d7c;
+  background: radial-gradient(circle at top right, rgba(229, 191, 120, 0.15), transparent 65%), #122940;
+  color: #f2f5f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.memory-card-item:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #e5bf78;
+}
+.memory-card-item.is-flipped {
+  background: #173754;
+  border-color: #e5bf78;
+}
+.memory-card-item.is-matched {
+  background: rgba(45, 138, 101, 0.28);
+  border-color: #5ed3a2;
+  cursor: default;
+}
+.mem-back-icon {
+  font-size: 32px;
+}
+.mem-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: rgba(229, 191, 120, 0.18);
+  color: #f9d995;
+}
+.memory-card-item strong {
+  font-size: 13px;
+  line-height: 1.38;
+}
+@media (max-width: 860px) {
+  .game-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .memory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .memory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .memory-card-item {
+    min-height: 115px;
+    padding: 10px;
+  }
+}
+
+
+/* === DISEÑO VISUAL RENOVADO Y CREATIVO (MEDYTE GAMES) === */
+.game-grid-custom {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+  gap: 18px;
+}
+.game-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.badge-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 5px 10px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #dbe7f0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.badge-new {
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+  border-color: rgba(56, 189, 248, 0.45);
+}
+.card-accent-gold {
+  background: linear-gradient(155deg, rgba(229, 191, 120, 0.16) 0%, rgba(16, 37, 58, 0.96) 55%);
+  border-color: rgba(229, 191, 120, 0.42);
+}
+.card-accent-cyan {
+  background: linear-gradient(155deg, rgba(56, 189, 248, 0.18) 0%, rgba(16, 37, 58, 0.96) 55%);
+  border-color: rgba(56, 189, 248, 0.42);
+}
+.card-accent-rose {
+  background: linear-gradient(155deg, rgba(244, 114, 182, 0.16) 0%, rgba(16, 37, 58, 0.96) 55%);
+  border-color: rgba(244, 114, 182, 0.4);
+}
+.card-accent-orange {
+  background: linear-gradient(155deg, rgba(251, 146, 60, 0.17) 0%, rgba(16, 37, 58, 0.96) 55%);
+  border-color: rgba(251, 146, 60, 0.42);
+}
+.card-accent-emerald {
+  background: linear-gradient(155deg, rgba(52, 211, 153, 0.16) 0%, rgba(16, 37, 58, 0.96) 55%);
+  border-color: rgba(52, 211, 153, 0.42);
+}
+
+/* Islas del mapa con identidad por materia */
+.island.theme-bio:not(.locked) { background: radial-gradient(circle at top, rgba(74, 222, 128, 0.2), transparent 65%), #122b3d; border-color: #3b7b5c; }
+.island.theme-qui:not(.locked) { background: radial-gradient(circle at top, rgba(56, 189, 248, 0.2), transparent 65%), #122b3d; border-color: #387094; }
+.island.theme-fis:not(.locked) { background: radial-gradient(circle at top, rgba(250, 204, 21, 0.2), transparent 65%), #122b3d; border-color: #8c7632; }
+.island.theme-mat:not(.locked) { background: radial-gradient(circle at top, rgba(167, 139, 250, 0.2), transparent 65%), #122b3d; border-color: #64539c; }
+.island.theme-len:not(.locked) { background: radial-gradient(circle at top, rgba(244, 114, 182, 0.2), transparent 65%), #122b3d; border-color: #8c4c70; }
+.island.theme-final:not(.locked) { background: radial-gradient(circle at top, rgba(229, 191, 120, 0.28), transparent 70%), #1a2e40; border-color: #e5bf78; }
+
+/* Monitor de Guardia Médica (ECG) */
+.ecg-monitor {
+  background: #081826;
+  border: 1px solid #28546e;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: inset 0 0 28px rgba(16, 185, 129, 0.08);
+}
+.ecg-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+}
+.ecg-badge {
+  color: #4ade80;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.ecg-vitals {
+  color: #93c5fd;
+  background: rgba(30, 58, 138, 0.35);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+.ecg-line {
+  width: 100%;
+  height: 44px;
+  margin: 10px 0;
+  filter: drop-shadow(0 0 5px rgba(74, 222, 128, 0.55));
+}
+.patient-story {
+  background: rgba(18, 41, 64, 0.75);
+  border-left: 3px solid #38bdf8;
+  padding: 12px 15px;
+  border-radius: 10px;
+}
+.patient-story strong {
+  color: #bae6fd;
+  font-size: 14px;
+}
+.patient-story p {
+  margin: 6px 0 0;
+  color: #e2e8f0;
+  line-height: 1.5;
+  font-size: 14.5px;
+}
+
+/* Mejoras en tarjetas de Pares de Estudio */
+.tag-term {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #7dd3fc !important;
+}
+.tag-def {
+  background: rgba(229, 191, 120, 0.2) !important;
+  color: #fde68a !important;
+}

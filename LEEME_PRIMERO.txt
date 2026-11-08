@@ -1,19 +1,28 @@
-MEDYTE ACADEMY — EDICIÓN ÉPICA
-===============================
+MEDYTE ACADEMY — GUÍA RÁPIDA
+==========================
 
-1. EXTRAER este ZIP en una carpeta de tu computadora.
-2. Hacer doble clic en index.html para probar el campus y sus juegos.
-3. Para compartir por internet, subir TODOS los archivos extraídos a la raíz del
-   repositorio GitHub medyte-academy. No subir el ZIP sin descomprimir.
-4. Revisar Settings > Pages: main + / (root).
-5. Entrar a MEDYTE GAMES desde el menú de la página.
+Esta es la versión web que funciona sin XAMPP. Puedes abrir index.html para verla
+en tu computadora o subir los archivos a GitHub Pages para compartirla.
 
-INCLUYE:
-- 1.000 preguntas, 5 materias, 52 temas.
-- Aventura del Conocimiento: 6 niveles, vidas, combos y contrarreloj.
-- Anatomía Challenge: 3 niveles, arrastrar o tocar, pistas y puntos.
-- Rangos, logros, misiones diarias, intro y sonido opcional.
-- Diseño adaptable e instalación tipo PWA.
+QUÉ INCLUYE
+- Cinco materias y un banco de preguntas de práctica.
+- Cuestionarios con dificultad fácil, normal o difícil (clasificación orientativa).
+- Simulacros con tiempo y revisión de respuestas.
+- Tarjetas de repaso, favoritas y apuntes.
+- Cinco juegos con acceso directo desde el inicio: Ruta por Materias,
+  Guardia Médica, Atlas de Anatomía, Racha al Límite y Pares de Estudio.
+- XP, trofeos, avatares y registro de progreso en el navegador.
+- Exportación e importación del progreso en un archivo JSON.
 
-NO NECESITA XAMPP. Los XP se guardan en este navegador y dispositivo; no son
-cuentas de estudiante compartidas entre equipos. Consulta README.md para más.
+PARA PUBLICAR EN GITHUB PAGES
+1. Descomprime el ZIP.
+2. Sube los archivos a la raíz de tu repositorio; index.html debe quedar
+   junto a app.js, juegos.html y preguntas.js.
+3. Confirma los cambios y revisa el resultado en GitHub Pages.
+
+IMPORTANTE
+Los perfiles se guardan solo en el navegador, no en un servidor. Si usas
+otro celular, exporta el progreso y después impórtalo allí.
+MEDYTE ACADEMY es un proyecto independiente y no ofrece exámenes oficiales.
+
+Lee README.md si necesitas más detalles.

@@ -1,4 +1,4 @@
-/* MEDYTE ACADEMY · Edición Épica
+/* MEDYTE ACADEMY · Interfaz y recompensas
    Misiones locales, insignias, sonidos opcionales y celebraciones.
    No envía información a ningún servidor. */
 (() => {
@@ -17,7 +17,7 @@
   extra.introSeen = !!extra.introSeen;
   const nowDay = () => {const d=new Date(); return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');};
   const dayOf = value => { const d=new Date(value); return Number.isNaN(d.getTime())?'':[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');};
-  const rank = xp => (xp>=2400?['Leyenda MEDYTE','👑']:xp>=1400?['Maestro del Saber','🏆']:xp>=800?['Futuro Médico','🩺']:xp>=400?['Investigador','🔬']:xp>=150?['Explorador','🧭']:['Aprendiz','🌱']);
+  const rank = xp => (xp>=2400?['Experto MEDYTE','👑']:xp>=1400?['Avanzado','🏆']:xp>=800?['Futuro Médico','🩺']:xp>=400?['Investigador','🔬']:xp>=150?['Explorador','🧭']:['Aprendiz','🌱']);
   const getProfile = () => {const p = read(PROFILE) || {};return {xp:Math.max(0,Number(p.xp)||0),history:Array.isArray(p.history)?p.history:[]};};
   const getGames = () => {const p=read(GAMES)||{};return {adventure:p.adventure||{},anatomy:p.anatomy||{}};};
   const achievements = (profile,games) => [
@@ -25,8 +25,8 @@
     {id:'aventura',name:'Explorador del mapa',icon:'🧭',text:'Supera una etapa de Aventura.',ok:Object.values(games.adventure).some(x=>x.best>=60)},
     {id:'estrellas',name:'Tres estrellas',icon:'🌟',text:'Consigue el 100% en una etapa.',ok:Object.values(games.adventure).some(x=>x.best>=100)},
     {id:'anatomia',name:'Detective del cuerpo',icon:'🫀',text:'Completa un nivel de Anatomía.',ok:Object.values(games.anatomy).some(x=>x.wins>=1)},
-    {id:'xp500',name:'Constancia de oro',icon:'⚡',text:'Acumula 500 XP.',ok:profile.xp>=500},
-    {id:'xp1500',name:'Estrella MEDYTE',icon:'🏅',text:'Acumula 1.500 XP.',ok:profile.xp>=1500}
+    {id:'xp500',name:'Constancia',icon:'⚡',text:'Acumula 500 XP.',ok:profile.xp>=500},
+    {id:'xp1500',name:'1500 XP',icon:'🏅',text:'Acumula 1.500 XP.',ok:profile.xp>=1500}
   ];
   const missions = (profile,games) => {
     const day=nowDay();
@@ -135,7 +135,7 @@
     refresh();
     // Presentación opcional, solo una vez en el dispositivo.
     if(!extra.introSeen){
-      const intro=document.createElement('div');intro.id='epicIntro';intro.className='epic-intro';intro.innerHTML=`<div class="epic-intro-stars" aria-hidden="true"></div><div class="epic-intro-card"><img src="logo.jpg" alt="Emblema MEDYTE ACADEMY"><span class="epic-overline">EDICIÓN ÉPICA · 2026</span><h1>Tu aventura<br><em>comienza aquí.</em></h1><p>Mil preguntas, dos mundos de juegos, misiones diarias e insignias por tus logros.</p><button type="button" class="epic-enter" data-epic="intro">✨ ¡Entrar a MEDYTE!</button><small>El sonido está apagado por defecto. Puedes activarlo cuando quieras.</small></div>`;
+      const intro=document.createElement('div');intro.id='epicIntro';intro.className='epic-intro';intro.innerHTML=`<div class="epic-intro-stars" aria-hidden="true"></div><div class="epic-intro-card"><img src="logo.jpg" alt="Emblema MEDYTE ACADEMY"><span class="epic-overline">MEDYTE ACADEMY</span><h1>Tu espacio<br><em>para practicar.</em></h1><p>Preguntas, simulacros, juegos y seguimiento de tus avances.</p><button type="button" class="epic-enter" data-epic="intro">Entrar a MEDYTE</button><small>El sonido está apagado por defecto. Puedes activarlo cuando quieras.</small></div>`;
       document.body.append(intro);
     }
   }

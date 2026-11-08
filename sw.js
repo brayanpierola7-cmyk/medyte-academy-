@@ -1,6 +1,6 @@
 /* Copia local de archivos públicos para poder estudiar sin conexión, una vez visitada la web. */
-const CACHE = 'medyte-academy-2026-epica-v1';
-const ASSETS = ['./', './index.html', './juegos.html', './juegos.css', './juegos.js', './epico.css', './epico.js', './estilos.css', './app.js', './preguntas.js', './logo.jpg', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const CACHE = 'medyte-academy-2026-accesos-juegos-v10';
+const ASSETS = ['./', './index.html', './juegos.html', './juegos.css', './juegos.js', './epico.css', './epico.js', './estilos.css', './app.js', './preguntas.js', './dificultad.js', './logo.jpg', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
@@ -12,5 +12,5 @@ self.addEventListener('fetch', e => {
   e.respondWith(fetch(e.request).then(r => {
     if (r.ok) { const copy=r.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
     return r;
-  }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html'))));
+  }).catch(() => caches.open(CACHE).then(c => c.match(e.request)).then(r => r || Response.error())));
 });

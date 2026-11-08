@@ -1,57 +1,53 @@
-# MEDYTE ACADEMY — EDICIÓN ÉPICA
+# MEDYTE ACADEMY — versión web
 
-Web educativa estática, lista para GitHub Pages, con **1.000 preguntas**, **cinco materias**, **52 temas** y dos minijuegos. Conserva el logo original y el sistema local de progreso de las versiones anteriores.
+Página de estudio para practicar preguntas de distintas materias, hacer
+simulacros y jugar. Funciona como sitio estático en GitHub Pages y no requiere
+XAMPP.
 
-## Qué trae esta edición
+## Qué puedes hacer
 
-**Campus:** simulacros, prácticas, reto rápido, reto diario, consulta de preguntas, favoritas, repaso de errores, análisis de resultados y guardado de un intento incompleto.
-
-**Aventura del Conocimiento:** mapa de seis mundos (Biología, Química, Física, Matemáticas, Lenguaje y reto final), desbloqueos por puntuación, estrellas, tres corazones por etapa, modo contrarreloj (20 segundos por pregunta), combos de respuestas y cofres de primera victoria.
-
-**Anatomía Challenge:** tres niveles anatómicos, silueta interactiva esquemática, identificación tocando marcadores o arrastrando la tarjeta del órgano, dos pistas por nivel, combo de precisión y bono de primera finalización.
-
-**Gamificación general:** intro animada (se muestra una vez), rangos, seis insignias, tres misiones diarias con recompensas XP, celebraciones visuales y efectos de sonido **desactivados por defecto**. El botón de sonido permite encenderlos o apagarlos.
-
-**PWA:** manifiesto, iconos y caché sin conexión después de que el navegador haya instalado el trabajador de servicio y descargado los archivos.
-
-## Para probarla en tu computadora
-
-1. Descomprime el ZIP.
-2. Abre `index.html` en Chrome o Edge.
-3. Selecciona **MEDYTE GAMES** para entrar a los minijuegos.
-
-No es necesario instalar XAMPP para esta edición. Algunas funciones avanzadas de instalación y almacenamiento sin conexión requieren servir el sitio por HTTPS (por ejemplo, GitHub Pages).
-
-## Para subirla a GitHub Pages
-
-1. Abre tu repositorio `medyte-academy` en GitHub.
-2. En **Code**, entra en **Add file → Upload files**.
-3. Selecciona **los archivos que están dentro de esta carpeta**, sin subir la carpeta principal como subcarpeta. `index.html` debe estar en la raíz del repositorio.
-4. Reemplaza los archivos con el mismo nombre, añade los nuevos (`epico.js`, `epico.css`) y pulsa **Commit changes**.
-5. En **Settings → Pages**, elige **Deploy from a branch**, rama `main`, carpeta `/ (root)`, **Save**.
-6. Abre el enlace público cuando GitHub Pages indique que la página está publicada. Si sigues viendo la versión anterior, haz una recarga forzada (Ctrl+F5).
-
-**Importante:** si publicaste una versión anterior, los archivos nuevos deben sustituirla. No elimines `preguntas.js`, `logo.jpg`, `app.js` ni `juegos.js`.
+- Elegir una materia, un tema y la cantidad de preguntas.
+- Practicar con los niveles **fácil, normal y difícil**. Las etiquetas de
+  dificultad se generaron automáticamente y son orientativas; no han sido
+  verificadas por un docente.
+- Resolver simulacros con cronómetro, marcar preguntas para revisar y
+  consultar los resultados por materia. También hay un simulacro de práctica
+  de 100 preguntas repartidas entre cinco materias; **no es oficial de la UMSA**.
+- Revisar respuestas incorrectas, guardar preguntas favoritas y escribir apuntes.
+- Estudiar con tarjetas de repaso.
+- Jugar Aventura del Conocimiento, Anatomía Challenge, Duelo de Supervivencia
+  y Memoria Médica.
+- Acumular XP, ver trofeos y elegir avatares.
 
 ## Dónde se guardan los datos
 
-Esta edición **no incluye PHP, MySQL ni cuentas reales**. El XP, las respuestas, las partidas y las recompensas se guardan exclusivamente en el almacenamiento local del navegador (`localStorage`). No existe una tabla de posiciones global, acceso de administrador en línea ni sincronización automática entre celulares.
+El progreso, los perfiles locales y los resultados quedan en el navegador
+donde se utiliza la página. No hay registro de usuarios en un servidor ni
+sincronización automática entre dispositivos. Para pasar los datos de un
+celular a otro, usa la opción de exportar/importar progreso en JSON.
 
-Las claves de almacenamiento de las versiones previas se mantienen (`medyte_demo_estatica_v1` y `medyte_games_v1`) para conservar el progreso **en el mismo navegador y dominio**. Es recomendable usar la función **Exportar mi progreso** antes de hacer cambios importantes o borrar datos del navegador.
+## Publicar en GitHub Pages
+
+1. Extrae el contenido del ZIP.
+2. Abre el repositorio de GitHub que aloja MEDYTE ACADEMY.
+3. En **Agregar archivo → Cargar archivos**, selecciona los archivos
+   descomprimidos. No subas el ZIP en lugar de los archivos.
+4. Comprueba que `index.html` esté en la raíz del repositorio.
+5. Confirma los cambios y revisa el despliegue en **Actions**.
+
+Si ves una versión anterior, recarga la página con `Ctrl+Shift+R`. El archivo
+`sw.js` tiene una nueva versión de caché para esta actualización.
 
 ## Archivos principales
 
-- `index.html`: campus principal.
-- `estilos.css`, `app.js`: estilos y lógica del campus.
-- `juegos.html`, `juegos.css`, `juegos.js`: dos minijuegos.
-- `epico.css`, `epico.js`: animaciones, rangos, insignias, misiones y sonido.
-- `preguntas.js`: el banco de 1.000 preguntas.
-- `logo.jpg`, `icon-192.png`, `icon-512.png`: identidad visual.
-- `manifest.webmanifest`, `sw.js`: instalación y caché para PWA.
-- `.nojekyll`: compatibilidad con GitHub Pages.
+| Archivo | Para qué sirve |
+|---|---|
+| `index.html`, `estilos.css`, `app.js` | Página principal y cuestionarios |
+| `preguntas.js` | Banco de preguntas (sin modificaciones de contenido) |
+| `dificultad.js` | Niveles orientativos por pregunta |
+| `juegos.html`, `juegos.css`, `juegos.js` | Cinco minijuegos |
+| `epico.js`, `epico.css` | Efectos, sonidos opcionales, XP y misiones |
+| `manifest.webmanifest`, `sw.js`, iconos | Instalación como web app y caché |
 
-## Consideraciones
-
-La silueta de Anatomía Challenge es una representación didáctica simplificada, **no un atlas anatómico a escala**. Las preguntas son actividades de práctica originales y no equivalen a un examen oficial de admisión. MEDYTE ACADEMY es un proyecto educativo independiente, sin afiliación oficial a la UMSA.
-
-© 2026 MEDYTE ACADEMY
+**Nota:** MEDYTE ACADEMY es una plataforma de práctica independiente.
+No está afiliada a la UMSA y sus simulacros no son exámenes oficiales.
